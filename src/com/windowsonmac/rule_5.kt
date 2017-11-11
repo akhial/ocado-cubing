@@ -32,77 +32,47 @@ fun main(args: Array<String>) {
         var sorted = it.value.sortedByDescending { it.weight/it.vol } // Same thing just sort by density
         // for a weird approx.
         val split = sorted.partition { it.category > 4 }
-        sorted = split.first
-        while(sorted.isNotEmpty()) {
-            container++
-            weight = BigDecimal.ZERO
-            volume = BigDecimal.ZERO
-            for(i in 0 until sorted.size) {
-                val p = sorted[i]
-                if(p.weight > 15.0 || p.vol > 65340.0) continue
-                oldVolume = volume
-                oldWeight = weight
-                volume += BigDecimal.valueOf(p.vol)
-                weight += BigDecimal.valueOf(p.weight)
-                if(weight > BigDecimal.valueOf(15.0) || volume > BigDecimal.valueOf(65340)) {
-                    volume = oldVolume
-                    weight = oldWeight
-                    continue
-                }
-                sb.append("${it.key},$container,${p.id}\n")
-                usedProducts.add(p)
+        for(k in 0..1) {
+            sorted = when(k) {
+                0 -> split.first
+                1 -> split.second
+                else -> split.second
             }
-            val remaining = arrayListOf<Product>()
-            var f = false
-            for(p in sorted) {
-                for(q in usedProducts) {
-                    if(p == q) {
-                        usedProducts.remove(p)
-                        f = true
-                        break
+            while(sorted.isNotEmpty()) {
+                container++
+                weight = BigDecimal.ZERO
+                volume = BigDecimal.ZERO
+                for(i in 0 until sorted.size) {
+                    val p = sorted[i]
+                    if(p.weight > 15.0 || p.vol > 65340.0) continue
+                    oldVolume = volume
+                    oldWeight = weight
+                    volume += BigDecimal.valueOf(p.vol)
+                    weight += BigDecimal.valueOf(p.weight)
+                    if(weight > BigDecimal.valueOf(15.0) || volume > BigDecimal.valueOf(65340)) {
+                        volume = oldVolume
+                        weight = oldWeight
+                        continue
                     }
+                    sb.append("${it.key},$container,${p.id}\n")
+                    usedProducts.add(p)
                 }
-                if(!f) remaining.add(p)
-                f = false
-            }
-            usedProducts.clear()
-            sorted = remaining
-        }
-        sorted = split.second
-        while(sorted.isNotEmpty()) {
-            container++
-            weight = BigDecimal.ZERO
-            volume = BigDecimal.ZERO
-            for(i in 0 until sorted.size) {
-                val p = sorted[i]
-                if(p.weight > 15.0 || p.vol > 65340.0) continue
-                oldVolume = volume
-                oldWeight = weight
-                volume += BigDecimal.valueOf(p.vol)
-                weight += BigDecimal.valueOf(p.weight)
-                if(weight > BigDecimal.valueOf(15.0) || volume > BigDecimal.valueOf(65340)) {
-                    volume = oldVolume
-                    weight = oldWeight
-                    continue
-                }
-                sb.append("${it.key},$container,${p.id}\n")
-                usedProducts.add(p)
-            }
-            val remaining = arrayListOf<Product>()
-            var f = false
-            for(p in sorted) {
-                for(q in usedProducts) {
-                    if(p == q) {
-                        usedProducts.remove(p)
-                        f = true
-                        break
+                val remaining = arrayListOf<Product>()
+                var f = false
+                for(p in sorted) {
+                    for(q in usedProducts) {
+                        if(p == q) {
+                            usedProducts.remove(p)
+                            f = true
+                            break
+                        }
                     }
+                    if(!f) remaining.add(p)
+                    f = false
                 }
-                if(!f) remaining.add(p)
-                f = false
+                usedProducts.clear()
+                sorted = remaining
             }
-            usedProducts.clear()
-            sorted = remaining
         }
     }
     File("$TEAM.rule_5.csv").printWriter().use {
