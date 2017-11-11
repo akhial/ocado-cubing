@@ -45,9 +45,7 @@ fun main(args: Array<String>) {
                     weight = oldWeight
                     continue
                 }
-                print("${it.key} $volume $weight -> $container")
-                Scanner(System.`in`).nextLine()
-                //sb.append("${it.key},$container,${p.id}\n")
+                sb.append("${it.key},$container,${p.id}\n")
                 usedProducts.add(p)
             }
             val remaining = arrayListOf<Product>()
