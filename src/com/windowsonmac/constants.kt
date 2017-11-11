@@ -5,3 +5,4 @@ package com.windowsonmac
  */
 
 const val TEAM = "windowsonmac"
+const val VOL = 65340.0

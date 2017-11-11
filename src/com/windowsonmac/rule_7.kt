@@ -7,7 +7,6 @@ import java.util.HashMap
 
 /**
  * Written for GreatUniHack 2017 by Adel Khial.
- * Worst code ever lol, just hackathon things.
  */
 
 fun main(args: Array<String>) {
@@ -36,12 +35,16 @@ fun main(args: Array<String>) {
         val second = split.second
         val p1 = first.partition { it.category > 6 }
         val p2 = second.partition { it.category > 2 }
-        for(k in 0..3) {
+        for(k in 0..5) {
+            val p11 = p1.second.partition { it.category == 5 }
+            val p22 = p2.first.partition { it.category == 3 }
             sorted = when(k) {
-                0 -> p1.first
-                1 -> p1.second
-                2 -> p2.first
-                3 -> p2.second
+                0 -> p1.first // 7,8
+                1 -> p11.first // 5
+                2 -> p11.second // 6
+                3 -> p22.first // 3
+                4 -> p22.second // 4
+                5 -> p2.second // 1,2
                 else -> throw Exception("WT actual F")
             }
             while(sorted.isNotEmpty()) {
@@ -81,7 +84,7 @@ fun main(args: Array<String>) {
             }
         }
     }
-    File("$TEAM.rule_6.csv").printWriter().use {
+    File("$TEAM.rule_7.csv").printWriter().use {
         it.println("\"ORDER_ID\",\"CONTAINER_ID\",\"SKU_ID\"")
         it.println(sb)
     }

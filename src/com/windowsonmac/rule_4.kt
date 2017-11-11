@@ -35,12 +35,12 @@ fun main(args: Array<String>) {
             volume = BigDecimal.ZERO
             for(i in 0 until sorted.size) {
                 val p = sorted[i]
-                if(p.weight > 15.0 || p.vol > 65340.0) continue
+                if(p.weight > 15.0 || p.vol > VOL) continue
                 oldVolume = volume
                 oldWeight = weight
                 volume += BigDecimal.valueOf(p.vol)
                 weight += BigDecimal.valueOf(p.weight)
-                if(weight > BigDecimal.valueOf(15.0) || volume > BigDecimal.valueOf(65340)) {
+                if(weight > BigDecimal.valueOf(15.0) || volume > BigDecimal.valueOf(VOL)) {
                     volume = oldVolume
                     weight = oldWeight
                     continue
