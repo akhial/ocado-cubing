@@ -16,7 +16,9 @@ fun main(args: Array<String>) {
 
     val orderMap = HashMap<Int, ArrayList<Product>>()
     var weight: BigDecimal
+    var volume: BigDecimal
     var oldWeight: BigDecimal
+    var oldVolume: BigDecimal
     var container = 0
     orders.forEach {
         if(orderMap[it.first] != null)
@@ -25,20 +27,27 @@ fun main(args: Array<String>) {
             orderMap[it.first] = arrayListOf(products[it.second]!!)
     }
     orderMap.forEach {
-        var sorted = it.value.sortedByDescending { it.weight }
+        var sorted = it.value.sortedByDescending { it.weight/it.vol } // Same thing just sort by density
+        // for a weird approx.
         while(sorted.isNotEmpty()) {
             container++
             weight = BigDecimal.ZERO
+            volume = BigDecimal.ZERO
             for(i in 0 until sorted.size) {
                 val p = sorted[i]
-                if(p.weight > 15.0) continue
+                if(p.weight > 15.0 || p.vol > 65340.0) continue
+                oldVolume = volume
                 oldWeight = weight
+                volume += BigDecimal.valueOf(p.vol)
                 weight += BigDecimal.valueOf(p.weight)
-                if(weight > BigDecimal.valueOf(15.0)) {
+                if(weight > BigDecimal.valueOf(15.0) || volume > BigDecimal.valueOf(65340)) {
+                    volume = oldVolume
                     weight = oldWeight
                     continue
                 }
-                sb.append("${it.key},$container,${p.id}\n")
+                print("${it.key} $volume $weight -> $container")
+                Scanner(System.`in`).nextLine()
+                //sb.append("${it.key},$container,${p.id}\n")
                 usedProducts.add(p)
             }
             val remaining = arrayListOf<Product>()
@@ -58,7 +67,7 @@ fun main(args: Array<String>) {
             sorted = remaining
         }
     }
-    File("$TEAM.rule_3.csv").printWriter().use {
+    File("$TEAM.rule_4.csv").printWriter().use {
         it.println("\"ORDER_ID\",\"CONTAINER_ID\",\"SKU_ID\"")
         it.println(sb)
     }
