@@ -12,7 +12,7 @@ fun getProducts(): HashMap<Int, Product> {
     val products = HashMap<Int, Product>()
     Files.lines(Paths.get("product.csv")).forEach {
         val strings = it.split(",")
-        if(strings[0] != "\"SKU_ID\"") {
+        if(strings[0] != "SKU_ID") {
             val id = strings[0].toInt()
             val h = strings[1].toDouble()
             val l = strings[2].toDouble()
