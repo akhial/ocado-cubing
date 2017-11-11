@@ -12,8 +12,7 @@ fun main(args: Array<String>) {
     orders.forEach {
         sb.append("${it.first},1,${it.second}\n")
     }
-    val pw = File("$TEAM.rule_1.csv").printWriter()
-    pw.use {
+    File("$TEAM.rule_1.csv").printWriter().use {
         it.println("\"ORDER_ID\",\"CONTAINER_ID\",\"SKU_ID\"")
         it.println(sb)
     }
