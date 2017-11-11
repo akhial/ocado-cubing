@@ -38,14 +38,24 @@ fun main(args: Array<String>) {
                     weight = oldWeight
                     continue
                 }
-
-                //print("${it.key} $container $weight")
+                sb.append("${it.key},$container,${p.id}\n")
                 usedProducts.add(p)
             }
-            println("${sorted.size} ${usedProducts.size}")
-            Scanner(System.`in`).nextLine()
-            sorted -= usedProducts
+            val remaining = arrayListOf<Product>()
+            var f = false
+            for(p in sorted) {
+                for(q in usedProducts) {
+                    if(p == q) {
+                        usedProducts.remove(p)
+                        f = true
+                        break
+                    }
+                }
+                if(!f) remaining.add(p)
+                f = false
+            }
             usedProducts.clear()
+            sorted = remaining
         }
     }
     File("$TEAM.rule_3.csv").printWriter().use {

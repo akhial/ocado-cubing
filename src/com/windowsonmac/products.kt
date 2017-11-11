@@ -20,7 +20,7 @@ fun getProducts(): HashMap<Int, Product> {
             val weight = strings[4].toDouble()
             val vol = strings[5].toDouble()
             val category = strings[6].toInt()
-            products[id] = Product(h, l, w, weight, vol, category)
+            products[id] = Product(h, l, w, weight, vol, category, id)
         }
     }
     return products

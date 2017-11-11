@@ -10,5 +10,6 @@ data class Product(
         val w: Double,
         val weight: Double,
         val vol: Double,
-        val category: Int
+        val category: Int,
+        val id: Int
 )
