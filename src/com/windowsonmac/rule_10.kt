@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
             orderMap[it.first] = arrayListOf(products[it.second]!!)
     }
     orderMap.forEach {
-        var sorted = it.value.sortedByDescending { it.weight/it.vol } // Same thing just sort by density
+        var sorted = it.value.sortedByDescending { it.h*it.h*it.weight*it.vol } // Same thing just sort by density
         // for a weird approx.
         val split = sorted.partition { it.category > 4 }
         val first = split.first
@@ -137,7 +137,7 @@ fun main(args: Array<String>) {
             }
         }
     }
-    File("$TEAM.rule_10.csv").printWriter().use {
+    File("$TEAM.rule_9.csv").printWriter().use {
         it.println("\"ORDER_ID\",\"CONTAINER_ID\",\"SKU_ID\"")
         it.println(sb)
     }
