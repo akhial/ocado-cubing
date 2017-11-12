@@ -65,4 +65,5 @@ fun main(args: Array<String>) {
         it.println("\"ORDER_ID\",\"CONTAINER_ID\",\"SKU_ID\"")
         it.println(sb)
     }
+    println("# of totes: $container")
 }

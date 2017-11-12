@@ -7,7 +7,6 @@ import java.util.HashMap
 
 /**
  * Written for GreatUniHack 2017 by Adel Khial.
- * Worst code ever lol, just hackathon things.
  */
 
 fun main(args: Array<String>) {
@@ -88,4 +87,5 @@ fun main(args: Array<String>) {
         it.println("\"ORDER_ID\",\"CONTAINER_ID\",\"SKU_ID\"")
         it.println(sb)
     }
+    println("# of totes: $container")
 }

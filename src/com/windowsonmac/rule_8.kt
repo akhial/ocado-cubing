@@ -46,7 +46,7 @@ fun main(args: Array<String>) {
                 3 -> p11.second // 6
                 4 -> p22.first // 3
                 5 -> p2.second // 1,2
-                else -> throw Exception("WT actual F")
+                else -> throw Exception()
             }
             while(sorted.isNotEmpty()) {
                 container++
@@ -96,4 +96,5 @@ fun main(args: Array<String>) {
         it.println("\"ORDER_ID\",\"CONTAINER_ID\",\"SKU_ID\"")
         it.println(sb)
     }
+    println("# of totes: $container")
 }

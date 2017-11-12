@@ -46,7 +46,7 @@ fun main(args: Array<String>) {
                 3 -> p11.second // 6
                 4 -> p22.first // 3
                 5 -> p2.second // 1,2
-                else -> throw Exception("WT actual F")
+                else -> throw Exception()
             }
             while(sorted.isNotEmpty()) {
                 vol = BigDecimal.ZERO
@@ -113,7 +113,7 @@ fun main(args: Array<String>) {
                         mZ = z
                     }
                     vol += BigDecimal.valueOf(p.vol)
-                    if(vol > BigDecimal.valueOf(VOL)) throw Exception("TIMBER!")
+                    if(vol > BigDecimal.valueOf(VOL)) throw Exception()
                     sb.append("${it.key},$container,${p.id}\n")
                     usedProducts.add(p)
                 }
@@ -139,4 +139,5 @@ fun main(args: Array<String>) {
         it.println("\"ORDER_ID\",\"CONTAINER_ID\",\"SKU_ID\"")
         it.println(sb)
     }
+    println("# of totes: $container")
 }
