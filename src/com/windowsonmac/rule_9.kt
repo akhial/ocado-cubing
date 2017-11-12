@@ -36,6 +36,8 @@ fun main(args: Array<String>) {
         val p11 = p1.second.partition { it.category == 5 }
         val p22 = p2.first.partition { it.category == 3 }
         var p22s = p22.second
+
+        var vol = 0.0
         for(k in 0..5) {
             sorted = when(k) {
                 0 -> p1.first // 7,8
@@ -47,6 +49,8 @@ fun main(args: Array<String>) {
                 else -> throw Exception("WT actual F")
             }
             while(sorted.isNotEmpty()) {
+                if(vol > VOL) throw Exception("TIMBER!")
+                vol = 0.0
                 var mX = BigDecimal.ZERO
                 var mY = BigDecimal.ZERO
                 var mZ = BigDecimal.ZERO
@@ -65,13 +69,32 @@ fun main(args: Array<String>) {
                         weight = oldWeight
                         continue
                     }
-                    val z = mZ.max(BigDecimal.valueOf(p.h))
-                    val y = mY.max(BigDecimal.valueOf(p.l))
                     val x = mX + BigDecimal.valueOf(p.w)
-                    if(z > BigDecimal.valueOf(33.0) || y > BigDecimal.valueOf(55.0) || x > BigDecimal.valueOf(36.0)) {
-                        weight = oldWeight
-                        continue
+                    var y = mY.max(BigDecimal.valueOf(p.l))
+                    var z = mZ.max(BigDecimal.valueOf(p.h))
+                    if(x > BigDecimal.valueOf(36.0)) {
+                        y = mY + BigDecimal.valueOf(p.l)
+                        if(y > BigDecimal.valueOf(55.0)) {
+                            z = mZ + BigDecimal.valueOf(p.h)
+                            if(z > BigDecimal.valueOf(33.0)) {
+                                weight = oldWeight
+                                continue
+                            } else {
+                                mX = BigDecimal.valueOf(p.w)
+                                mY = BigDecimal.valueOf(p.l)
+                                mZ = z
+                            }
+                        } else {
+                            mX = BigDecimal.valueOf(p.w)
+                            mY = y
+                            mZ = z
+                        }
+                    } else {
+                        mX = x
+                        mY = y
+                        mZ = z
                     }
+                    vol += p.vol
                     sb.append("${it.key},$container,${p.id}\n")
                     usedProducts.add(p)
                 }
