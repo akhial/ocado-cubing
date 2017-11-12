@@ -31,7 +31,10 @@ fun main(args: Array<String>) {
             weight = BigDecimal.ZERO
             for(i in 0 until sorted.size) {
                 val p = sorted[i]
-                if(p.weight > 15.0) continue
+                if(p.weight > 15.0) {
+                    usedProducts.add(p)
+                    continue
+                }
                 oldWeight = weight
                 weight += BigDecimal.valueOf(p.weight)
                 if(weight > BigDecimal.valueOf(15.0)) {

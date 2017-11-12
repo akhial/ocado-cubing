@@ -37,7 +37,7 @@ fun main(args: Array<String>) {
         val p22 = p2.first.partition { it.category == 3 }
         var p22s = p22.second
 
-        var vol = 0.0
+        var vol: BigDecimal
         for(k in 0..5) {
             sorted = when(k) {
                 0 -> p1.first // 7,8
@@ -49,11 +49,12 @@ fun main(args: Array<String>) {
                 else -> throw Exception("WT actual F")
             }
             while(sorted.isNotEmpty()) {
-                if(vol > VOL) throw Exception("TIMBER!")
-                vol = 0.0
+                vol = BigDecimal.ZERO
                 var mX = BigDecimal.ZERO
                 var mY = BigDecimal.ZERO
                 var mZ = BigDecimal.ZERO
+                var oY = BigDecimal.ZERO
+                var oZ = BigDecimal.ZERO
                 container++
                 weight = BigDecimal.ZERO
                 if(sorted.none { it.category == 8 } && k == 0) {
@@ -62,31 +63,48 @@ fun main(args: Array<String>) {
                 }
                 for(i in 0 until sorted.size) {
                     val p = sorted[i]
-                    if(p.weight > 15.0 || p.vol > VOL) continue
+                    if(p.weight > 15.0 || p.vol > VOL) {
+                        usedProducts.add(p)
+                        continue
+                    }
                     oldWeight = weight
                     weight += BigDecimal.valueOf(p.weight)
                     if(weight > BigDecimal.valueOf(15.0)) {
                         weight = oldWeight
                         continue
                     }
-                    val x = mX + BigDecimal.valueOf(p.w)
-                    var y = mY.max(BigDecimal.valueOf(p.l))
-                    var z = mZ.max(BigDecimal.valueOf(p.h))
-                    if(x > BigDecimal.valueOf(36.0)) {
-                        y = mY + BigDecimal.valueOf(p.l)
-                        if(y > BigDecimal.valueOf(55.0)) {
-                            z = mZ + BigDecimal.valueOf(p.h)
-                            if(z > BigDecimal.valueOf(33.0)) {
+                    val w = BigDecimal.valueOf(p.w)
+                    val l = BigDecimal.valueOf(p.l)
+                    val h = BigDecimal.valueOf(p.h)
+                    val ts = BigDecimal.valueOf(36.0)
+                    val ff = BigDecimal.valueOf(55.0)
+                    val tt = BigDecimal.valueOf(33.0)
+                    if(w > ts || l > ff || h > tt) {
+                        weight = oldWeight
+                        usedProducts.add(p)
+                        continue
+                    }
+                    val x = mX + w
+                    var y = mY.max(l + oY)
+                    var z = mZ.max(h + oZ)
+                    if(x > ts || y > ff || z > tt) {
+                        y = mY + l
+                        if(y > ff || z > tt) {
+                            z = mZ + h
+                            if(z > tt) {
                                 weight = oldWeight
                                 continue
                             } else {
-                                mX = BigDecimal.valueOf(p.w)
-                                mY = BigDecimal.valueOf(p.l)
+                                mX = w
+                                mY = l
+                                oZ = mZ
                                 mZ = z
                             }
                         } else {
-                            mX = BigDecimal.valueOf(p.w)
+                            mX = w
+                            oY = mY
                             mY = y
+                            oZ = mZ
                             mZ = z
                         }
                     } else {
@@ -94,7 +112,8 @@ fun main(args: Array<String>) {
                         mY = y
                         mZ = z
                     }
-                    vol += p.vol
+                    vol += BigDecimal.valueOf(p.vol)
+                    if(vol > BigDecimal.valueOf(VOL)) throw Exception("TIMBER!")
                     sb.append("${it.key},$container,${p.id}\n")
                     usedProducts.add(p)
                 }

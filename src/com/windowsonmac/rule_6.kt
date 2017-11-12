@@ -50,7 +50,10 @@ fun main(args: Array<String>) {
                 volume = BigDecimal.ZERO
                 for(i in 0 until sorted.size) {
                     val p = sorted[i]
-                    if(p.weight > 15.0 || p.vol > VOL) continue
+                    if(p.weight > 15.0 || p.vol > VOL)  {
+                        usedProducts.add(p)
+                        continue
+                    }
                     oldVolume = volume
                     oldWeight = weight
                     volume += BigDecimal.valueOf(p.vol)
