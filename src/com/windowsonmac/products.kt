@@ -10,7 +10,7 @@ import kotlin.collections.HashMap
 
 fun getProducts(): HashMap<Int, Product> {
     val products = HashMap<Int, Product>()
-    Files.lines(Paths.get("product.csv")).forEach {
+    Files.lines(Paths.get("res/product.csv")).forEach {
         val strings = it.split(",")
         if(strings[0] != "\"SKU_ID\"") {
             val id = strings[0].toInt()

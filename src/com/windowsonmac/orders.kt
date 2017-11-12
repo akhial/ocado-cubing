@@ -10,7 +10,7 @@ import kotlin.collections.ArrayList
 
 fun getOrders(): ArrayList<Pair<Int, Int>> {
     val orders = ArrayList<Pair<Int, Int>>()
-    val lines = Files.lines(Paths.get("order.csv"))
+    val lines = Files.lines(Paths.get("res/order.csv"))
     for(line in lines) {
         val strings = line.split(",")
         if(strings[0] == "ORDER_ID") continue
